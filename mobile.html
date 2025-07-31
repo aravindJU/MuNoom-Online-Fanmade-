@@ -1,42 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Penguin Videos (FanMade)</title>
-  <script>
-    // Redirect to mobile version if screen is narrow
-    if (window.innerWidth < 600) {
-      window.location.href = "mobile.html";
-    }
-  </script>
+  <title>AI Penguin Videos - Mobile</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f9f9f9, #e6f0ff);
-      color: #333;
+      margin: 0;
+      padding: 10px;
+      background: #fefefe;
+      color: #222;
       text-align: center;
-      padding: 20px;
     }
+
     h1 {
-      font-size: 2.5em;
-      color: #1a1a1a;
+      font-size: 1.8em;
       margin-bottom: 10px;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
     }
+
     p {
-      font-size: 1.1em;
+      font-size: 0.9em;
       margin-bottom: 15px;
-      color: #555;
     }
+
     .controls {
-      margin: 15px 0;
+      margin: 10px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
     }
+
     .controls button {
       background: #4CAF50;
       color: white;
@@ -45,55 +40,50 @@
       font-size: 1.1em;
       border-radius: 8px;
       cursor: pointer;
-      margin: 5px;
+      width: 90%;
+      max-width: 300px;
       transition: background 0.3s ease;
     }
+
     .controls button:hover {
       background: #45a049;
     }
+
     #unmuteAllBtn {
       background: #2196F3;
     }
     #unmuteAllBtn:hover {
       background: #1976D2;
     }
+
     .video-gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
     }
+
     .video-gallery video {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .video-gallery video:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      width: 95%;
+      max-width: 400px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
     }
   </style>
 </head>
 <body>
-  <h1>AI Penguin Videos</h1>
-  <p>Enjoy MuNoom's extremely cute and wholesome AI Penguin videos without ads.</p>
-  <p>You can even watch multiple videos at once.</p>
+  <h1>🐧 AI Penguin Videos</h1>
+  <p>Watch cute penguin videos on mobile.</p>
 
   <!-- ✅ Control Buttons -->
   <div class="controls">
-    <button id="playAllBtn">▶ Play All Videos</button>
-    <button id="unmuteAllBtn">🔊 Unmute All Videos</button>
+    <button id="playAllBtn">▶ Play All</button>
+    <button id="unmuteAllBtn">🔊 Unmute All</button>
   </div>
 
   <!-- ✅ Video Gallery -->
   <div class="video-gallery">
-    
-    <video src="toocute.mp4" controls width="260" height="540"></video>
+        <video src="toocute.mp4" controls width="260" height="540"></video>
   <video src="Qt.mp4" controls width="260" height="540"></video>
   <video src="adore.mp4" controls width="260" height="540"></video>
   <video src="sleepy.mp4" controls width="260" height="540"></video>
@@ -135,24 +125,23 @@
   <video src="my_hide_bag.mp4" controls width="260" height="540"></video>
   <video src="penguin_workers.mp4" controls width="260" height="540"></video>
   <video src="obeseQt.mp4" controls width="260" height="540"></video>
-
   </div>
 
   <script>
     const videos = document.querySelectorAll('video');
 
-    // ✅ Play all videos (muted)
+    // ✅ Play all videos muted
     document.getElementById('playAllBtn').addEventListener('click', () => {
-      videos.forEach(video => {
-        video.muted = true; // Start muted to avoid autoplay restrictions
-        video.play();
+      videos.forEach(v => {
+        v.muted = true; // Start muted to bypass autoplay restrictions
+        v.play();
       });
     });
 
-    // ✅ Unmute all videos after they start playing
+    // ✅ Unmute all videos
     document.getElementById('unmuteAllBtn').addEventListener('click', () => {
-      videos.forEach(video => {
-        video.muted = false;
+      videos.forEach(v => {
+        v.muted = false;
       });
     });
   </script>
