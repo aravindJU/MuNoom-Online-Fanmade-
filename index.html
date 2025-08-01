@@ -4,41 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Penguin Videos (FanMade)</title>
-  <script>
-    // Redirect to mobile version if screen is narrow
-    if (window.innerWidth < 600) {
-      window.location.href = "mobile.html";
-    }
-  </script>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f9f9f9, #e6f0ff);
-      color: #333;
+      background: linear-gradient(135deg, #1a1a1a, #333);
+      color: #f1f1f1;
       text-align: center;
       padding: 20px;
     }
-    h1 {
-      font-size: 2.5em;
-      color: #1a1a1a;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    p {
-      font-size: 1.1em;
-      margin-bottom: 15px;
-      color: #555;
-    }
-    .controls {
-      margin: 15px 0;
-    }
+    h1 { font-size: 2.5em; margin-bottom: 10px; color: #ff4444; }
+    p { font-size: 1.1em; margin-bottom: 15px; color: #ddd; }
+    .controls { margin: 15px 0; }
     .controls button {
-      background: #4CAF50;
+      background: #ff2222;
       color: white;
       border: none;
       padding: 12px 20px;
@@ -46,53 +24,60 @@
       border-radius: 8px;
       cursor: pointer;
       margin: 5px;
-      transition: background 0.3s ease;
-    }
-    .controls button:hover {
-      background: #45a049;
-    }
-    #unmuteAllBtn {
-      background: #2196F3;
-    }
-    #unmuteAllBtn:hover {
-      background: #1976D2;
     }
     .video-gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
-      width: 100%;
       max-width: 1200px;
-      margin: 0 auto;
-      margin-top: 20px;
+      margin: 20px auto;
     }
+
+    /* 🔴 Video Red Tint */
     .video-gallery video {
       width: 100%;
-      height: auto;
       border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(255,0,0,0.3);
+      border: 3px solid #ff4444;
+      filter: sepia(100%) hue-rotate(-50deg) saturate(600%) brightness(80%);
     }
-    .video-gallery video:hover {
-      transform: scale(1.05);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+
+    /* Violent Shake Animation */
+    @keyframes violent-shake {
+      0%   { transform: translate(0,0) rotate(0deg); }
+      10%  { transform: translate(-15px, 15px) rotate(-5deg); }
+      20%  { transform: translate(15px, -15px) rotate(5deg); }
+      30%  { transform: translate(-18px, -12px) rotate(4deg); }
+      40%  { transform: translate(18px, 12px) rotate(-4deg); }
+      50%  { transform: translate(-15px, 15px) rotate(5deg); }
+      60%  { transform: translate(15px, -15px) rotate(-5deg); }
+      70%  { transform: translate(-12px, 12px) rotate(4deg); }
+      80%  { transform: translate(12px, -12px) rotate(-4deg); }
+      90%  { transform: translate(-8px, 8px) rotate(2deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+    .violent-shake {
+      animation: violent-shake 0.07s infinite linear;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
-  <h1>AI Penguin Videos</h1>
-  <p>Enjoy MuNoom's extremely cute and wholesome AI Penguin videos without ads.</p>
-  <p>You can even watch multiple videos at once.</p>
+  <h1>🔥 AI Penguin Metal Edition 🔥</h1>
+  <p>Penguins meet heavy metal! Always muted with a dark red vibe.</p>
 
-  <!-- ✅ Control Buttons -->
+  <!-- 🎸 Heavy Metal Music -->
+  <audio id="metalMusic" loop>
+    <source src="heavy-metal.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ✅ Controls -->
   <div class="controls">
     <button id="playAllBtn">▶ Play All Videos</button>
-    <button id="unmuteAllBtn">🔊 Unmute All Videos</button>
   </div>
 
   <!-- ✅ Video Gallery -->
   <div class="video-gallery">
-    
     <video src="toocute.mp4" controls width="260" height="540"></video>
   <video src="Qt.mp4" controls width="260" height="540"></video>
   <video src="adore.mp4" controls width="260" height="540"></video>
@@ -137,24 +122,58 @@
   <video src="obeseQt.mp4" controls width="260" height="540"></video>
   <video src="eat_food.mp4" controls width="260" height="540"></video>
   <video src="fluffy.mp4" controls width="260" height="540"></video>
-
   </div>
 
   <script>
     const videos = document.querySelectorAll('video');
+    const metalMusic = document.getElementById('metalMusic');
 
-    // ✅ Play all videos (muted)
-    document.getElementById('playAllBtn').addEventListener('click', () => {
-      videos.forEach(video => {
-        video.muted = true; // Start muted to avoid autoplay restrictions
-        video.play();
+    // ✅ Disable fullscreen entirely
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+        alert('Fullscreen is disabled on this page.');
+      }
+    });
+
+    videos.forEach(video => {
+      // Remove fullscreen API from each video (for some browsers)
+      video.setAttribute('controlsList', 'nofullscreen');
+
+      video.addEventListener('play', () => {
+        video.muted = true;                 
+        metalMusic.currentTime = 0;         
+        metalMusic.play();                  
+        video.classList.add('violent-shake');
+      });
+
+      video.addEventListener('pause', () => {
+        video.classList.remove('violent-shake');
+        if (![...videos].some(v => !v.paused)) {
+          metalMusic.pause();
+        }
+      });
+
+      video.addEventListener('ended', () => {
+        video.classList.remove('violent-shake');
+        if (![...videos].some(v => !v.paused)) {
+          metalMusic.pause();
+        }
+      });
+
+      // 🚫 Prevent unmuting
+      video.addEventListener('volumechange', () => {
+        if (!video.muted) {
+          video.muted = true;
+        }
       });
     });
 
-    // ✅ Unmute all videos after they start playing
-    document.getElementById('unmuteAllBtn').addEventListener('click', () => {
+    // ✅ Play all videos muted
+    document.getElementById('playAllBtn').addEventListener('click', () => {
       videos.forEach(video => {
-        video.muted = false;
+        video.muted = true;
+        video.play();
       });
     });
   </script>
