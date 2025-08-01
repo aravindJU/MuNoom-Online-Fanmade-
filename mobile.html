@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +7,14 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 10px;
-      background: #fefefe;
-      color: #222;
+      background: linear-gradient(135deg, #1a1a1a, #333);
+      color: #f1f1f1;
       text-align: center;
+      padding: 10px;
     }
 
-    h1 {
-      font-size: 1.8em;
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 0.9em;
-      margin-bottom: 15px;
-    }
+    h1 { font-size: 1.8em; margin-bottom: 8px; color: #ff4444; }
+    p { font-size: 0.9em; margin-bottom: 12px; color: #ddd; }
 
     .controls {
       margin: 10px 0;
@@ -33,57 +25,71 @@
     }
 
     .controls button {
-      background: #4CAF50;
+      background: #ff2222;
       color: white;
       border: none;
       padding: 12px 20px;
-      font-size: 1.1em;
+      font-size: 1em;
       border-radius: 8px;
       cursor: pointer;
       width: 90%;
       max-width: 300px;
-      transition: background 0.3s ease;
-    }
-
-    .controls button:hover {
-      background: #45a049;
-    }
-
-    #unmuteAllBtn {
-      background: #2196F3;
-    }
-    #unmuteAllBtn:hover {
-      background: #1976D2;
     }
 
     .video-gallery {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
       align-items: center;
     }
 
+    /* 🔴 Video Red Tint */
     .video-gallery video {
       width: 95%;
       max-width: 400px;
       border-radius: 10px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+      border: 3px solid #ff4444;
+      box-shadow: 0 3px 12px rgba(255,0,0,0.3);
+      filter: sepia(100%) hue-rotate(-50deg) saturate(600%) brightness(80%);
+    }
+
+    /* Violent Shake Animation */
+    @keyframes violent-shake {
+      0%   { transform: translate(0,0) rotate(0deg); }
+      10%  { transform: translate(-12px, 12px) rotate(-5deg); }
+      20%  { transform: translate(12px, -12px) rotate(5deg); }
+      30%  { transform: translate(-14px, -10px) rotate(4deg); }
+      40%  { transform: translate(14px, 10px) rotate(-4deg); }
+      50%  { transform: translate(-12px, 12px) rotate(5deg); }
+      60%  { transform: translate(12px, -12px) rotate(-5deg); }
+      70%  { transform: translate(-10px, 10px) rotate(4deg); }
+      80%  { transform: translate(10px, -10px) rotate(-4deg); }
+      90%  { transform: translate(-8px, 8px) rotate(2deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+    .violent-shake {
+      animation: violent-shake 0.07s infinite linear;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
-  <h1>🐧 AI Penguin Videos</h1>
-  <p>Watch cute penguin videos on mobile.</p>
+  <h1>🔥 AI Penguin Metal (Mobile) 🔥</h1>
+  <p>Penguins meet heavy metal! Always muted, red tint, fullscreen blocked. If you wish death on AI animals.</p>
 
-  <!-- ✅ Control Buttons -->
+  <!-- 🎸 Heavy Metal Music -->
+  <audio id="metalMusic" loop>
+    <source src="heavy-metal.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ✅ Controls -->
   <div class="controls">
-    <button id="playAllBtn">▶ Play All</button>
-    <button id="unmuteAllBtn">🔊 Unmute All</button>
+    <button id="playAllBtn">▶ Play All Videos</button>
   </div>
 
   <!-- ✅ Video Gallery -->
   <div class="video-gallery">
-        <video src="toocute.mp4" controls width="260" height="540"></video>
+   <video src="toocute.mp4" controls width="260" height="540"></video>
   <video src="Qt.mp4" controls width="260" height="540"></video>
   <video src="adore.mp4" controls width="260" height="540"></video>
   <video src="sleepy.mp4" controls width="260" height="540"></video>
@@ -127,23 +133,59 @@
   <video src="obeseQt.mp4" controls width="260" height="540"></video>
   <video src="eat_food.mp4" controls width="260" height="540"></video>
   <video src="fluffy.mp4" controls width="260" height="540"></video>
+
   </div>
 
   <script>
     const videos = document.querySelectorAll('video');
+    const metalMusic = document.getElementById('metalMusic');
 
-    // ✅ Play all videos muted
-    document.getElementById('playAllBtn').addEventListener('click', () => {
-      videos.forEach(v => {
-        v.muted = true; // Start muted to bypass autoplay restrictions
-        v.play();
+    // ✅ Disable fullscreen entirely on mobile
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+        alert('Fullscreen is disabled on mobile.');
+      }
+    });
+
+    videos.forEach(video => {
+      // Hide fullscreen button (for browsers that support it)
+      video.setAttribute('controlsList', 'nofullscreen');
+
+      video.addEventListener('play', () => {
+        video.muted = true;
+        metalMusic.currentTime = 0;
+        metalMusic.play();
+        video.classList.add('violent-shake');
+      });
+
+      video.addEventListener('pause', () => {
+        video.classList.remove('violent-shake');
+        if (![...videos].some(v => !v.paused)) {
+          metalMusic.pause();
+        }
+      });
+
+      video.addEventListener('ended', () => {
+        video.classList.remove('violent-shake');
+        if (![...videos].some(v => !v.paused)) {
+          metalMusic.pause();
+        }
+      });
+
+      // 🚫 Prevent unmuting
+      video.addEventListener('volumechange', () => {
+        if (!video.muted) {
+          video.muted = true;
+        }
       });
     });
 
-    // ✅ Unmute all videos
-    document.getElementById('unmuteAllBtn').addEventListener('click', () => {
-      videos.forEach(v => {
-        v.muted = false;
+    // ✅ Play all videos muted
+    document.getElementById('playAllBtn').addEventListener('click', () => {
+      videos.forEach(video => {
+        video.muted = true;
+        video.play();
       });
     });
   </script>
